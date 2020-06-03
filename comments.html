@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Language" content="pt-br">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title> Comments </title>
+</head>
+
+
+<body>
+    <div id="app"></div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el:'#app',
+            template:`
+    <div class="container">
+        <h1 align="center">Comments</h1>
+        <div class="form-todo form-group">
+            <p> <input type="text" name="author" v-model="author" class="form-control" placeholder="Name"/> </p>
+            <p> <textarea name="message" v-model="message" class="form-control" placeholder="Message"></textarea> </p>
+            <p align="center"> <button type="submit" v-on:click="addComment" class="btn btn-primary"> Comment </button> </p>
+        </div>
+        <div class="list-group">
+            <div class="list_group_item" v-for="(comment, index) in comments">
+                <p>Autor: <strong>{{comment.author}}</strong> </p>
+                <p>{{comment.message}}</p>
+                <div> <button class="btn btn-outline-danger btn-sm" v-on:click.prevent="removeComment(index)"> Remove </button> </div>
+            </div>
+        </div>
+    </div>
+            `,
+            data: function(){
+                return{
+                    comments:[],
+                    author:'',
+                    message:''
+                }
+            },
+            methods: {
+                addComment(){
+                    console.log("Adding comment.");
+                    if (this.message.trim() === '') return;
+                    this.comments.push( {author:this.author, message:this.message} );
+                    this.author = '';
+                    this.message = '';
+                },
+                removeComment(index){
+                    let permission = confirm ("Are you sure to delete this comment?");
+                    if (permission)
+                        this.comments.splice(index, 1);
+                },
+            }
+        })
+    </script>
+</body>
+</html>
+
